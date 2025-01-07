@@ -7,7 +7,11 @@ def register_user(data):
     user.set_password(data['password'])
     db.session.add(user)
     db.session.commit()
-    return {"id": user.id, "username": user.username}
+
+    # automatically creating token for register
+    token = create_access_token(identity=user.id)
+
+    return {"id": user.id, "username": user.username, "token": token}
 
 def login_user(data):
     user = User.query.filter_by(username=data['username']).first()
