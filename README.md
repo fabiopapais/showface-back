@@ -44,11 +44,11 @@ pip install -r requirements.txt
 
 - [POST] **/auth/login**
 
-    Logins the user and returns a JWT token
+    Logins the user and returns a JWT token. Returns code 401 if invalid credentials.
     
     ```json
     {
-        "username": "Example",
+        "email": "example@gmail.com",
         "password": "12345678",
 
     }
@@ -56,12 +56,37 @@ pip install -r requirements.txt
 
 - [POST] **/auth/register**
     
-    Register new user and returns a JWT token
+    Register new user and returns a JWT token. Returns code 400 if email already exists.
     
     ```json
     {
-        "username": "Example",
+        "name": "Example",
+        "email": "example@gmail.com",
         "password": "12345678",
 
     }
     ```
+
+### Events
+
+- [GET] **/events**
+
+    Returns an event properties
+
+- [POST] **/events**
+    
+    Creates a new event and return its information.
+
+- [POST] **/events**
+
+    Edits an event properties
+
+- [POST] **/events/images**
+
+    Uploads images to a specific event.
+
+### Recognition
+
+- [POST] **/recognize**
+
+    Receives an image and an event ID and performs face verification. Returns the matched images name/IDs. 
