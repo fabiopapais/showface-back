@@ -2,20 +2,29 @@ from app.models import User
 from app import db
 from flask_jwt_extended import create_access_token
 
+class UserAlreadyExistsException(Exception):
+    pass
+
 def register_user(data):
-    user = User(username=data['username'])
+    # checks existence of email
+    if User.query.filter_by(email=data['email']).first():
+        raise UserAlreadyExistsException("A user with this email already exists.")
+
+    user = User(name=data['name'], email=data['email'])
     user.set_password(data['password'])
+
     db.session.add(user)
     db.session.commit()
 
     # automatically creating token for register
     token = create_access_token(identity=user.id)
 
-    return {"id": user.id, "username": user.username, "token": token}
+    return {"id": user.id, "name": user.name, "token": token}
 
 def login_user(data):
-    user = User.query.filter_by(username=data['username']).first()
+    user = User.query.filter_by(email=data['email']).first()
     if user and user.check_password(data['password']):
         token = create_access_token(identity=user.id)
         return token
-    raise ValueError("Invalid credentials")
+    else:
+        raise ValueError("Invalid credentials")
