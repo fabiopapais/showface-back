@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from app.services.auth_service import UserAlreadyExistsException, register_user, login_user
+from app.services.auth_service import UserAlreadyExistsException, registerUser, loginUser
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -7,7 +7,7 @@ auth_bp = Blueprint('auth', __name__)
 def register():
     data = request.get_json()
     try:
-        user = register_user(data)
+        user = registerUser(data)
         return jsonify(user), 201
     except UserAlreadyExistsException as e:
         return jsonify({"error": str(e)}), 400
@@ -16,7 +16,7 @@ def register():
 def login():
     try:
         data = request.get_json()
-        token = login_user(data)
+        token = loginUser(data)
         return jsonify({"token": token}), 200
     except ValueError as e:
         return jsonify({"error": str(e)}), 401
