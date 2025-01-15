@@ -4,7 +4,7 @@ from app.services.event_service import createEvent, EventAlreadyExistsException
 event_bp = Blueprint('event', __name__)
 
 @event_bp.route('/new', methods=['POST'])
-def createEvent():
+def createEventRoute():
     data = request.get_json()
     try:
         event = createEvent(data)
