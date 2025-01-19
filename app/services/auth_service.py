@@ -23,7 +23,7 @@ def registerUser(data):
 
 def loginUser(data):
     user = User.query.filter_by(email=data['email']).first()
-    if user and user.check_password(data['password']):
+    if user and user.checkPassword(data['password']):
         token = create_access_token(identity=user.id)
         return token
     else:
