@@ -69,19 +69,19 @@ pip install -r requirements.txt
 
 ### Events
 
-- [GET] **/events**
+- [GET] **/event**
 
     Returns an event properties
 
-- [POST] **/events**
+- [POST] **/event/new**
     
     Creates a new event and return its information.
 
-- [POST] **/events**
+- [POST] **/event/edit**
 
     Edits an event properties
 
-- [POST] **/events/images**
+- [POST] **/event/images**
 
     Uploads images to a specific event.
 
