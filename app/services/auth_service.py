@@ -19,12 +19,12 @@ def registerUser(data):
     # automatically creating token for register
     token = create_access_token(identity=user.id)
 
-    return {user:{ "id": user.id, "name": user.name, "email": user.email}, "token":token}
+    return { "user": { "id": user.id, "name": user.name, "email": user.email}, "token":token}
 
 def loginUser(data):
     user : User = User.query.filter_by(email=data['email']).first()
     if user and user.checkPassword(data['password']):
         token = create_access_token(identity=user.id)
-        return {user:{ "id": user.id, "name": user.name, "email": user.email}, "token":token}
+        return { "user": { "id": user.id, "name": user.name, "email": user.email}, "token":token}
     else:
         raise ValueError("Invalid credentials")
