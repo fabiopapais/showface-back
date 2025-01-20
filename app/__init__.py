@@ -18,7 +18,9 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
     jwt.init_app(app)
-    CORS(app)
+    
+    # TODO: Specify allowed origins
+    CORS(app, origins=["*"])
 
     # Register blueprints
     from app.routes import registerBlueprints
