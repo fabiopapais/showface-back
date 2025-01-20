@@ -71,7 +71,17 @@ def registerImagesOnDatabase(event_id, user_id, image_paths):
 
 def getImages(event_id):
     images = Image.query.filter_by(eventId=event_id).all()
-    return images
+    image_dicts = []
+    for image in images:
+        image_dict = {
+            'id': image.id,
+            'link': image.link,
+            'description': image.description,
+            'eventId': image.eventId,
+            'userId': image.userId
+        }
+        image_dicts.append(image_dict)
+    return image_dicts
 
 def allowedFile(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_IMAGE_EXTENSIONS
