@@ -1,4 +1,4 @@
-from app.models import Event
+from app.models import Event, User
 from app import db
 
 class EventAlreadyExistsException(Exception):
@@ -12,12 +12,16 @@ def createEvent(data):
     if Event.query.filter_by(name=data['name']).first():
         raise EventAlreadyExistsException("An event with this name already exists.")
 
+    user = User.query.filter_by(id=data['userId']).first()
+    if not user:
+        raise EventNotFoundException("User not found.")
+
     event = Event(
         name=data['name'],
         photographer=data.get('photographer'), # .get is used in case the key doesn't exist - returns None
         photographerLink=data.get('photographerLink'),
         userId=data['userId'],
-        userName=data['userName']
+        userName=user.name
     )
 
     db.session.add(event)
@@ -43,9 +47,6 @@ def editEvent(data):
 
     # checks if Event name already exists
     event.name = data.get('name', event.name)
-
-    if Event.query.filter_by(name=data['name']).first():
-        raise EventAlreadyExistsException("An event with this name already exists.")
 
     event.photographer = data.get('photographer', event.photographer)
     event.photographerLink = data.get('photographerLink', event.photographerLink)
