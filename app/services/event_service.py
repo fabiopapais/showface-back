@@ -11,7 +11,7 @@ def createEvent(data):
     # checks for existing event name
     if Event.query.filter_by(name=data['name']).first():
         raise EventAlreadyExistsException("An event with this name already exists.")
-    
+
     event = Event(
         name=data['name'],
         photographer=data.get('photographer'), # .get is used in case the key doesn't exist - returns None
@@ -39,13 +39,33 @@ def editEvent(data):
     if not event:
         raise EventNotFoundException("Event not found.") # if no event is found with that id, raise exception
     
-    # updates to new values
+    # TODO: Authenticate with JWT 
+
+    # checks if Event name already exists
     event.name = data.get('name', event.name)
+
+    if Event.query.filter_by(name=data['name']).first():
+        raise EventAlreadyExistsException("An event with this name already exists.")
+
     event.photographer = data.get('photographer', event.photographer)
     event.photographerLink = data.get('photographerLink', event.photographerLink)
 
     db.session.commit()
 
+    eventDict = {"id": event.id, 
+                  "name": event.name, 
+                  "photographer": event.photographer, 
+                  "photographerLink": event.photographerLink, 
+                  "userId": event.userId, 
+                  "userName": event.userName}
+
+    return eventDict
+
+def getEventData(data):
+    event = Event.query.filter_by(id=data['id']).first()
+    if not event:
+        raise EventNotFoundException("Event not found.")
+    
     eventDict = {"id": event.id, 
                   "name": event.name, 
                   "photographer": event.photographer, 
