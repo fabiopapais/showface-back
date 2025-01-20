@@ -25,9 +25,9 @@ class Event(db.Model):
 
 class Image(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(150), nullable=False)
     link = db.Column(db.String(150), nullable=False)
     
-    eventId = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)
+    description = db.Column(db.String(150), nullable=False)
     
+    eventId = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)
     userId = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
