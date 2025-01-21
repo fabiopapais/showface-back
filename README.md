@@ -71,15 +71,44 @@ pip install -r requirements.txt
 
 - [GET] **/event**
 
-    Returns an event properties
+    Returns an event's properties through the event id.
+
+    ```json
+    {
+        "id": "1",
+
+    }
+    ```
 
 - [POST] **/event/new**
     
-    Creates a new event and return its information.
+    Creates a new event and returns the event's properties.
+    A .zip file containing the images is **necessary** and should be uploaded in the process along with the JSON for event creation.
 
-- [POST] **/event/edit**
+    ```json
+    {
+	"name": "Example Event",
+	"photographer": "User",
+	"photographerLink": "user.com",
+    "userId": 1,
+    "userName": "User1"
 
-    Edits an event properties
+    }
+    ```
+
+- [PUT] **/event/edit**
+
+    Edits an event properties by receiving its ID.
+
+    ```json
+    {
+	"id": 1,
+	"name": "Oscar",
+	"photographer": "user2",
+	"photographerLink": "user.com"
+    }
+    ```
+
 
 - [POST] **/event/images**
 
