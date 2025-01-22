@@ -40,8 +40,6 @@ def getEvent():
         images_paths = getImages(event['id'])
         event['images'] = images_paths
 
-        print(event, type(event))
-
         return jsonify(event), 200
     except EventNotFoundException as e:
-        return jsonify({"error": str(e)}), 400
+        return jsonify({"error": str(e)}), 404
