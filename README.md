@@ -1,3 +1,4 @@
+![logo](./logo.png)
 # showface-back
 ShowFace REST API backend
 
@@ -118,4 +119,4 @@ pip install -r requirements.txt
 
 - [POST] **/recognize**
 
-    Receives an image and an event ID and performs face verification. Returns the matched images name/IDs. 
+    Receives a single image (.jpg or .png) and an event ID to perform face verification. Returns the matched images links.
