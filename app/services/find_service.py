@@ -1,11 +1,12 @@
 from flask import current_app
 from werkzeug.utils import secure_filename
 from deepface import DeepFace
+import pandas as pd
 import os
 
 
 # locates each image in the event folder and compares it to the uploaded image using face recognition
-def findImagesOnEvent(events_paths, file):
+def findImagesOnEvent(eventId, file):
     # Ensure the folder for images exists
     images_folder = os.path.join(current_app.config['IMAGES_FOLDER'], 'find')
     os.makedirs(images_folder, exist_ok=True)
@@ -18,27 +19,28 @@ def findImagesOnEvent(events_paths, file):
     image_path = os.path.join(images_folder, filename)
     file.save(image_path)
 
-    # list for matching images
-    matching_images = []
+    # event images path (images folder + eventid)
+    event_image_path = os.path.join(current_app.config['IMAGES_FOLDER'], str(eventId))
 
-    # go through each image path
-    for event_image_path in events_paths:
-
-        # TODO: fix this workaround, the event image path should be saved without the 'app' prefix by default
-        event_image_path = 'app' + event_image_path
+    image_paths = []
         
-        try:           
-            # use deepface to compare the images
-            # TODO: test different models and detector backends to find the best performance
-            result = DeepFace.verify(image_path, 
-                                     event_image_path, 
-                                     model_name="VGG-Face", 
-                                     detector_backend="opencv")
+    try:           
+        # use deepface to compare the images
+        # TODO: test different models and detector backends to find the best performance
+        result = DeepFace.find(image_path, 
+                               event_image_path, 
+                               model_name="VGG-Face", 
+                               detector_backend="opencv")
                 
-            if result["verified"]:
-                matching_images.append(event_image_path)  
-        # deepFace throws an exception if it can't find a face in the image, most common type of error
-        except Exception as e:
-            print(f"Error processing image {event_image_path}: {e}")
+        # convert the result pandas dataframe to a dictionary
+        # append matching image links
+        dataframe = result[0]
+        dataframe_dict = dataframe.to_dict(orient='records')
+        for dict in dataframe_dict:
+            image_paths.append(dict['identity'])
+        
+    # deepFace throws an exception if it can't find a face in the image, most common type of error
+    except Exception as e:
+        print(f"Error processing image {event_image_path}: {e}")
 
-    return matching_images
+    return image_paths
