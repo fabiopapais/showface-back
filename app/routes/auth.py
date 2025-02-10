@@ -17,6 +17,6 @@ def login():
     try:
         data = request.get_json()
         token = loginUser(data)
-        return jsonify({"token": token}), 200
+        return jsonify(token), 200
     except ValueError as e:
         return jsonify({"error": str(e)}), 401
