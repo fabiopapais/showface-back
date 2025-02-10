@@ -75,3 +75,17 @@ def getEventData(data):
                   "userName": event.userName}
 
     return eventDict
+
+def getEventsByUserId(userId):
+    events = Event.query.filter_by(userId=userId).all()
+    eventDicts = []
+    for event in events:
+        eventDict = {"id": event.id, 
+                      "name": event.name, 
+                      "photographer": event.photographer, 
+                      "photographerLink": event.photographerLink, 
+                      "userId": event.userId, 
+                      "userName": event.userName}
+        eventDicts.append(eventDict)
+
+    return eventDicts

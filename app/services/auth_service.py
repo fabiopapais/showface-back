@@ -1,8 +1,14 @@
 from app.models import User
 from app import db
+
+from app.services.event_service import getEventsByUserId
+
 from flask_jwt_extended import create_access_token
 
 class UserAlreadyExistsException(Exception):
+    pass
+
+class UserDoesNotExistException(Exception):
     pass
 
 def registerUser(data):
@@ -28,3 +34,21 @@ def loginUser(data):
         return { "user": { "id": user.id, "name": user.name, "email": user.email}, "token":token}
     else:
         raise ValueError("Invalid credentials")
+
+def getUserById(data):
+    user = User.query.filter_by(id=data["id"]).first()
+    if not user:
+        raise UserDoesNotExistException("User not found.")
+    
+    # search for events created by user on events table
+    events = getEventsByUserId(data["id"])
+    
+    userDict = {
+        "id": user.id,
+        "name": user.name,
+        "email": user.email,
+        "events": events
+    }
+
+    
+    return userDict
