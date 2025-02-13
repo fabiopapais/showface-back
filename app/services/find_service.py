@@ -44,3 +44,16 @@ def findImagesOnEvent(eventId, file):
         print(f"Error processing image {event_image_path}: {e}")
 
     return image_paths
+
+def preGenerateRepresentations(eventId, imagesPaths):
+    print("Generating representations for event ", eventId)
+
+    event_image_path = os.path.join(current_app.config['IMAGES_FOLDER'], str(eventId))
+    image_path = "app/" + imagesPaths[0] # select random image to generate representations
+
+    print(image_path)
+
+    DeepFace.find(image_path, 
+                    event_image_path, 
+                    model_name="VGG-Face", #TODO: configure same model in env file
+                    detector_backend="opencv")
