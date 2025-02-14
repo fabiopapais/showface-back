@@ -12,15 +12,15 @@ def getEvent():
     files = request.files.get('file')
     try:
         event = getEventData(data)
-        images_paths = getImages(event['id'])
 
-        # get paths for each event image
-        event_image_paths = []
-        for image in images_paths:
-            event_image_paths.append(image['link'])
+        # get paths for each event image - commented out, not used
+        #   images_paths = getImages(event['id'])
+        #   event_image_paths = []
+        #   for image in images_paths:
+        #       event_image_paths.append(image['link'])
 
         # return matching images paths
-        matching_images = findImagesOnEvent(event_image_paths, files)
+        matching_images = findImagesOnEvent(event['id'], files)
 
         return jsonify(matching_images), 200
     except EventNotFoundException as e:
