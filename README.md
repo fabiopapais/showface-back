@@ -40,7 +40,24 @@ pip install -r requirements.txt
 
 </details>
 
+<h2> General setup </h2>
+After you've done the first-time setup, you can always start the project with:
+
+```bash
+source venv/bin/activate
+python run.py
+```
+
+And everytime you make a change in the database's structure (new table, new columns, etc), make sure to create new migrations:
+
+```bash
+flask db migrate
+flask db upgrade
+```
+
 ## Routes
+Each section describes how you should structure your request so the backend can proccess it correctly.
+
 ### Authentication and User
 
 - [POST] **/auth/login**
@@ -68,6 +85,16 @@ pip install -r requirements.txt
     }
     ```
 
+- [GET] **/user**
+    
+    Gets informations from an specified user. Returns all user properties and events created.
+    
+    ```json
+    {
+        "id": 1
+    }
+    ```
+
 ### Events
 
 - [GET] **/event**
@@ -77,23 +104,21 @@ pip install -r requirements.txt
     ```json
     {
         "id": "1",
-
     }
     ```
 
 - [POST] **/event/new**
     
     Creates a new event and returns the event's properties.
-    A .zip file containing the images is **necessary** and should be uploaded in the process along with the JSON for event creation.
+    A .zip file containing the images is **necessary** and should be uploaded in the process along with the JSON for event creation. Uses multipart/form-data and keys "data" and "file" for the JSON and image, respectively.
 
     ```json
     {
-	"name": "Example Event",
-	"photographer": "User",
-	"photographerLink": "user.com",
-    "userId": 1,
-    "userName": "User1"
-
+        "name": "Example Event",
+        "photographer": "User",
+        "photographerLink": "user.com",
+        "userId": 1,
+        "userName": "User1"
     }
     ```
 
@@ -103,20 +128,21 @@ pip install -r requirements.txt
 
     ```json
     {
-	"id": 1,
-	"name": "Oscar",
-	"photographer": "user2",
-	"photographerLink": "user.com"
+        "id": 1,
+        "name": "Oscar",
+        "photographer": "user2",
+        "photographerLink": "user.com"
     }
     ```
 
+### Find faces in events
 
-- [POST] **/event/images**
+- [POST] **/find**
 
-    Uploads images to a specific event.
+    Receives a **necessary** single image (.jpg or .png) and an event ID to perform face verification. Returns the matched images links. Uses multipart/form-data and keys "data" and "file" for the JSON and image, respectively.
 
-### Recognition
-
-- [POST] **/recognize**
-
-    Receives a single image (.jpg or .png) and an event ID to perform face verification. Returns the matched images links.
+    ```json
+    {
+        "id": 1
+    }
+    ```
