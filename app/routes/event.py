@@ -9,8 +9,7 @@ event_bp = Blueprint('event', __name__)
 
 @event_bp.route('/new', methods=['POST'])
 def createEventRoute():
-    data = request.form.get('data')  # 'data' is the key sent in the request
-    json_data = json.loads(data)  # Parse the JSON string into a Python dictionary
+    json_data = request.form.to_dict()
     files = request.files.get('file')
     event = None
 
