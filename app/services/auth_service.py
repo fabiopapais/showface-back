@@ -35,13 +35,13 @@ def loginUser(data):
     else:
         raise ValueError("Invalid credentials")
 
-def getUserById(data):
-    user = User.query.filter_by(id=data["id"]).first()
+def getUserById(id):
+    user = User.query.filter_by(id=id).first()
     if not user:
         raise UserDoesNotExistException("User not found.")
     
     # search for events created by user on events table
-    events = getEventsByUserId(data["id"])
+    events = getEventsByUserId(id)
     
     userDict = {
         "id": user.id,
