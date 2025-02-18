@@ -29,7 +29,7 @@ def testNewEvent(client):
             content_type="multipart/form-data"
         )
     
-    #TODO: COMPLETAR TESTE
+    #TODO: PARTIALLY DONE, COMPLETE LATER
 
 
 
