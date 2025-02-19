@@ -1,6 +1,6 @@
 import pytest
 import json, os, time
-from tests.testutils import regNewUser, createNewEvent, delEventImages
+from tests.testutils import regNewUser, createNewEvent, delImages
 
 def testNewEvent(client):
 
@@ -34,7 +34,7 @@ def testNewEvent(client):
     assert os.path.isdir("app/static/images/1")
 
     # removing the event images folder created:
-    delEventImages()
+    delImages()
 
 def testEditEvent(client):
 
@@ -63,7 +63,7 @@ def testEditEvent(client):
     assert info["name"] == "Edited Event"
 
     # removing the event images folder created:
-    delEventImages()
+    delImages()
 
 def testGetEvent(client):
 
@@ -82,4 +82,4 @@ def testGetEvent(client):
     assert response.status_code == 200
 
     # removing the event images folder created:
-    delEventImages()
+    delImages()

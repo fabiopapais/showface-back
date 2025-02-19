@@ -37,6 +37,6 @@ def createNewEvent(client):
     # delay so the background task preGenerateRepresentations can finish
     time.sleep(10)
 
-def delEventImages():
+def delImages():
     if os.path.isdir("app/static/images/"):
         shutil.rmtree("app/static/images/")

@@ -1,6 +1,6 @@
 import pytest
 import json, os
-from tests.testutils import regNewUser, createNewEvent, delEventImages
+from tests.testutils import regNewUser, createNewEvent, delImages
 
 def testFindImages(client):
 
@@ -23,3 +23,6 @@ def testFindImages(client):
     
     assert response.status_code == 200
     assert os.path.isdir("app/static/images/find")
+    
+    # delete images
+    delImages()
