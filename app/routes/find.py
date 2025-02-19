@@ -9,9 +9,11 @@ find_bp = Blueprint('find', __name__)
 @find_bp.route('/', methods=['GET'])
 def getEvent():
     data = json.loads(request.form.get('data'))
+    event_id = data['id']
+
     files = request.files.get('file')
     try:
-        event = getEventData(data)
+        event = getEventData(event_id)
 
         # get paths for each event image - commented out, not used
         #   images_paths = getImages(event['id'])
