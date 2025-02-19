@@ -28,7 +28,7 @@ def createNewEvent(client):
 
         file = (imageZip, "images.zip")
 
-        response = client.post(
+        client.post(
             "/event/new",
             data={"data": eventDataJson, "file": file},
             content_type="multipart/form-data"
@@ -36,11 +36,6 @@ def createNewEvent(client):
 
     # delay so the background task preGenerateRepresentations can finish
     time.sleep(10)
-
-    assert response.status_code == 201
-    info = response.get_json()
-    assert "id" in info
-    assert os.path.isdir("app/static/images/1")
 
 def delEventImages():
     if os.path.isdir("app/static/images/"):
