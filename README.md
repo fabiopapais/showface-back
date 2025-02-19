@@ -85,27 +85,15 @@ Each section describes how you should structure your request so the backend can 
     }
     ```
 
-- [GET] **/user**
+- [GET] **/user/{id}**
     
-    Gets informations from an specified user. Returns all user properties and events created.
-    
-    ```json
-    {
-        "id": 1
-    }
-    ```
+    Gets informations from an specified user (id). Returns all user properties and events created.
 
 ### Events
 
-- [GET] **/event**
+- [GET] **/event/{id}**
 
-    Returns an event's properties through the event id.
-
-    ```json
-    {
-        "id": "1",
-    }
-    ```
+    Returns an event's properties (and image list) through the event id.
 
 - [POST] **/event/new**
     
