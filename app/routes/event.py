@@ -10,6 +10,14 @@ event_bp = Blueprint('event', __name__)
 @event_bp.route('/new', methods=['POST'])
 def createEventRoute():
     json_data = request.form.to_dict()
+    
+    # TEMP CODE FOR TESTING - if form is received as a dict with '{data: '{json_data}'}' instead of just '{json_data}'
+    # happens when running tests, grabs the data from the 'data' key and converts it to a dict through json.loads
+    # TODO: FIND AN ALTERNATIVE
+    if len(json_data) == 1: 
+        json_data = json_data['data']
+        json_data = json.loads(json_data)
+
     files = request.files.get('file')
     event = None
 

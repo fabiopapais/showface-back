@@ -1,5 +1,7 @@
 import pytest
 import json
+import os, shutil
+import time
 
 def testNewEvent(client):
 
@@ -18,19 +20,22 @@ def testNewEvent(client):
             "userName": "testuser"
         })
 
-        data = {
-            "data": eventDataJson,
-            "file": (imageZip, "imagens.zip")
-        }
+        file = (imageZip, "images.zip")
 
         response = client.post(
             "/event/new",
-            data=data,
+            data={"data": eventDataJson, "file": file},
             content_type="multipart/form-data"
         )
-    
-    #TODO: PARTIALLY DONE, COMPLETE LATER
 
+    # delay so the background task preGenerateRepresentations can finish
+    time.sleep(10)
 
+    assert response.status_code == 201
+    info = response.get_json()
+    assert "id" in info
+    assert os.path.isdir("app/static/images/1")
 
-    
+    # removing the event images folder created:
+    if os.path.isdir("app/static/images/"):
+        shutil.rmtree("app/static/images/")
