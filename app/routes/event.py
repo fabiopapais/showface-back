@@ -10,6 +10,14 @@ event_bp = Blueprint('event', __name__)
 @event_bp.route('/new', methods=['POST'])
 def createEventRoute():
     json_data = request.form.to_dict()
+    
+    # TEMP CODE FOR TESTING - if form is received as a dict with '{data: '{json_data}'}' instead of just '{json_data}'
+    # happens when running tests, grabs the data from the 'data' key and converts it to a dict through json.loads
+    # TODO: FIND AN ALTERNATIVE
+    if len(json_data) == 1: 
+        json_data = json_data['data']
+        json_data = json.loads(json_data)
+
     files = request.files.get('file')
     event = None
 
@@ -41,12 +49,11 @@ def editEventRoute():
     except EventAlreadyExistsException as e:
         return jsonify({"error": str(e)}), 400
     
-@event_bp.route('/', methods=['GET'])
-def getEvent():
-    data = request.get_json()
+@event_bp.route('/<int:id>', methods=['GET'])
+def getEvent(id):
     try:
-        event = getEventData(data)
-        images_paths = getImages(event['id'])
+        event = getEventData(id)
+        images_paths = getImages(id)
         event['images'] = images_paths
 
         return jsonify(event), 200
