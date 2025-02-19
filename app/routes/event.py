@@ -50,11 +50,11 @@ def editEventRoute():
         return jsonify({"error": str(e)}), 400
     
 @event_bp.route('/<int:id>', methods=['GET'])
-def getEvent():
+def getEvent(id):
     data = request.get_json()
     try:
         event = getEventData(data)
-        images_paths = getImages(event['id'])
+        images_paths = getImages(id)
         event['images'] = images_paths
 
         return jsonify(event), 200
