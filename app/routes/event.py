@@ -49,7 +49,7 @@ def editEventRoute():
     except EventAlreadyExistsException as e:
         return jsonify({"error": str(e)}), 400
     
-@event_bp.route('/', methods=['GET'])
+@event_bp.route('/<int:id>', methods=['GET'])
 def getEvent():
     data = request.get_json()
     try:

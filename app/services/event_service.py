@@ -62,8 +62,8 @@ def editEvent(data):
 
     return eventDict
 
-def getEventData(data):
-    event = Event.query.filter_by(id=data['id']).first()
+def getEventData(id):
+    event = Event.query.filter_by(id=id).first()
     if not event:
         raise EventNotFoundException("Event not found.")
     
