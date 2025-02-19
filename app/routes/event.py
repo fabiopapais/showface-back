@@ -51,9 +51,8 @@ def editEventRoute():
     
 @event_bp.route('/<int:id>', methods=['GET'])
 def getEvent(id):
-    data = request.get_json()
     try:
-        event = getEventData(data)
+        event = getEventData(id)
         images_paths = getImages(id)
         event['images'] = images_paths
 
