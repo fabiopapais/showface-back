@@ -7,7 +7,7 @@ from flask import current_app
 from app.models import Event, Image
 from app import db
 
-ALLOWED_IMAGE_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+ALLOWED_IMAGE_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 def saveEventImages(file, eventId):
     # Ensure the folder for images exists

@@ -11,7 +11,7 @@ def findImagesOnEvent(eventId, file):
     images_folder = os.path.join(current_app.config['IMAGES_FOLDER'], 'find')
     os.makedirs(images_folder, exist_ok=True)
 
-    if not (file.filename.endswith('.png') or file.filename.endswith('.jpg')):
+    if not (file.filename.endswith('.png') or file.filename.endswith('.jpg') or file.filename.endswith('.jpeg')):
         raise ValueError("Uploaded file must be a .png or .jpg file")
 
     # Sanitize and save the image file
@@ -37,12 +37,13 @@ def findImagesOnEvent(eventId, file):
         dataframe = result[0]
         dataframe_dict = dataframe.to_dict(orient='records')
         for dict in dataframe_dict:
-            image_paths.append(dict['identity'])
+            image_paths.append(dict['identity'].split('app')[1])
         
     # deepFace throws an exception if it can't find a face in the image, most common type of error
     except Exception as e:
         print(f"Error processing image {event_image_path}: {e}")
 
+    print(image_paths)
     return image_paths
 
 def preGenerateRepresentations(eventId, imagesPaths):

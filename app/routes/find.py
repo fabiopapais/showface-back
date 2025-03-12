@@ -6,9 +6,9 @@ from app.services.find_service import findImagesOnEvent
 
 find_bp = Blueprint('find', __name__)
 
-@find_bp.route('/', methods=['GET'])
+@find_bp.route('/', methods=['POST'])
 def getEvent():
-    data = json.loads(request.form.get('data'))
+    data = request.form.to_dict()
     event_id = data['id']
 
     files = request.files.get('file')
