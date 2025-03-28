@@ -21,7 +21,8 @@ def createEvent(data):
         photographer=data.get('photographer'), # .get is used in case the key doesn't exist - returns None
         photographerLink=data.get('photographerLink'),
         userId=data['userId'],
-        userName=user.name
+        userName=user.name,
+        processed=False
     )
 
     db.session.add(event)
@@ -72,7 +73,8 @@ def getEventData(id):
                   "photographer": event.photographer, 
                   "photographerLink": event.photographerLink, 
                   "userId": event.userId, 
-                  "userName": event.userName}
+                  "userName": event.userName,
+                  "processed": event.processed}
 
     return eventDict
 

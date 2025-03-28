@@ -4,6 +4,9 @@ from deepface import DeepFace
 import pandas as pd
 import os
 
+from app.models import Event
+from app import db
+
 
 # locates each image in the event folder and compares it to the uploaded image using face recognition
 def findImagesOnEvent(eventId, file):
@@ -58,3 +61,11 @@ def preGenerateRepresentations(eventId, imagesPaths):
                     event_image_path, 
                     model_name="VGG-Face", #TODO: configure same model in env file
                     detector_backend="opencv")
+
+
+    event = Event.query.get(eventId)
+    if event:
+        event.processed = True
+        db.session.commit()
+    else:
+        print(f"Event {eventId} not found after processing.")

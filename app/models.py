@@ -23,6 +23,8 @@ class Event(db.Model):
     userId = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     userName = db.Column(db.String(150), nullable=False)
 
+    processed = db.Column(db.Boolean, nullable=True, default=False)
+
 class Image(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     link = db.Column(db.String(150), nullable=False)
