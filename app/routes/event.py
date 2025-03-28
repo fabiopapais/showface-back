@@ -54,7 +54,23 @@ def getEvent(id):
     try:
         event = getEventData(id)
         images_paths = getImages(id)
-        event['images'] = images_paths
+
+        # Get pagination parameters from query string
+        page = request.args.get('page', default=1, type=int)
+        per_page = 30
+
+        # Apply pagination to images
+        start = (page - 1) * per_page
+        end = min(start + per_page, len(images_paths))
+        paginated_images = images_paths[start:end]
+
+        # Include pagination metadata
+        event['images'] = paginated_images
+        event['pagination'] = {
+            "page": page,
+            "total": len(images_paths),
+            "total_pages": (len(images_paths) + per_page - 1) // per_page
+        }
 
         return jsonify(event), 200
     except EventNotFoundException as e:
