@@ -14,9 +14,11 @@ def saveEventImages(file, eventId):
     images_folder = os.path.join(current_app.config['IMAGES_FOLDER'], str(eventId))
     os.makedirs(images_folder, exist_ok=True)
 
+    print("AQUIIIIII\n\n\n\n", file)
+
     # Check if the file is a .zip
-    if not file.filename.endswith('.zip'):
-        raise ValueError("Uploaded file must be a .zip file")
+    # if not file.filename.endswith('.zip'):
+    #     raise ValueError("Uploaded file must be a .zip file")
 
     # Sanitize and save the .zip file
     zip_filename = secure_filename(file.filename)

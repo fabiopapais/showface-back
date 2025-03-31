@@ -9,6 +9,7 @@ class EventNotFoundException(Exception):
 
 def createEvent(data):
     # checks for existing event name
+    print(data['name'])
     if Event.query.filter_by(name=data['name']).first():
         raise EventAlreadyExistsException("An event with this name already exists.")
 
